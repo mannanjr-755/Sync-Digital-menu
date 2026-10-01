@@ -12,7 +12,7 @@ restaurantorder/
 └── .env          # Shared environment config
 ```
 
-Production is a **single Vercel project** (`DelhiDarbar-digital-menu`) with one public URL — https://4amdigitalmenu.vercel.app. The API is served from the same Next.js deployment at `/api/*`.
+Production is a **single Vercel project** (`dehlidarbardigitalmenu`) with one public URL — https://dehlidarbardigitalmenu.vercel.app. The API is served from the same Next.js deployment at `/api/*`.
 
 ## Quick start
 
@@ -32,7 +32,7 @@ This starts the full app at http://localhost:3000 (customer menu, admin UI, and 
 |------|-------------------|
 | Customer menu (Table 12) | http://localhost:3000/r/DelhiDarbar/t/12 |
 | Staff login | http://localhost:3000/admin/login |
-| Admin | `admin@delhidarbar.com` / `123456` |
+| Admin | `admin@delhidarbar.com` / `password123` |
 
 ## Brand
 

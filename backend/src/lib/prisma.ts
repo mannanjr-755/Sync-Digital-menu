@@ -6,32 +6,64 @@ import { PrismaNeon } from "@prisma/adapter-neon";
 
 function loadRootEnv() {
   const cwd = process.cwd();
-  const envRoot = existsSync(path.join(cwd, ".env"))
-    ? cwd
-    : path.join(cwd, "..");
+  const candidates = [
+    cwd,
+    path.join(cwd, ".."),
+    path.resolve(cwd, ".."),
+  ];
 
-  loadEnvConfig(envRoot);
+  for (const root of candidates) {
+    if (
+      existsSync(path.join(root, ".env")) ||
+      existsSync(path.join(root, ".env.local")) ||
+      existsSync(path.join(root, ".env.production"))
+    ) {
+      loadEnvConfig(root);
+      if (process.env.DATABASE_URL) return;
+    }
+  }
+
+  loadEnvConfig(cwd);
+  if (!process.env.DATABASE_URL) {
+    loadEnvConfig(path.join(cwd, ".."));
+  }
 }
 
-loadRootEnv();
+function createPrismaClient() {
+  loadRootEnv();
 
-const connectionString = process.env.DATABASE_URL;
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    throw new Error("DATABASE_URL is required to connect to PostgreSQL");
+  }
 
-if (!connectionString) {
-  throw new Error("DATABASE_URL is required to connect to PostgreSQL");
-}
-
-const adapter = new PrismaNeon({ connectionString });
-
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined };
-
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
+  const adapter = new PrismaNeon({ connectionString });
+  return new PrismaClient({
     adapter,
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
   });
-
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
 }
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined;
+};
+
+function getPrismaClient(): PrismaClient {
+  if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = createPrismaClient();
+  }
+  return globalForPrisma.prisma;
+}
+
+/**
+ * Lazy proxy so Next.js can import this module during `next build`
+ * page-data collection without requiring DATABASE_URL at module evaluation.
+ * The client is created on first property access (runtime / SSR).
+ */
+export const prisma: PrismaClient = new Proxy({} as PrismaClient, {
+  get(_target, prop, receiver) {
+    const client = getPrismaClient();
+    const value = Reflect.get(client, prop, receiver);
+    return typeof value === "function" ? value.bind(client) : value;
+  },
+});

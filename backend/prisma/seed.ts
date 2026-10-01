@@ -1,7 +1,15 @@
 import { PrismaClient } from "@prisma/client";
+import { PrismaNeon } from "@prisma/adapter-neon";
 import bcrypt from "bcryptjs";
 
-const prisma = new PrismaClient();
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error("DATABASE_URL is required to seed the database");
+}
+
+const prisma = new PrismaClient({
+  adapter: new PrismaNeon({ connectionString }),
+});
 
 const BRAND_SLUG = "DelhiDarbar";
 const PIZZA_SLUG = "pizza-palace";
@@ -14,11 +22,15 @@ async function main() {
 
   const brand = await prisma.restaurant.upsert({
     where: { slug: BRAND_SLUG },
-    update: {},
+    update: {
+      name: "DelhiDarbar",
+      logo: "/logo.png",
+      description: "Delicious food, great mood! Explore our chef's special dishes made just for you.",
+    },
     create: {
       name: "DelhiDarbar",
       slug: BRAND_SLUG,
-      logo: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=200&h=200&fit=crop",
+      logo: "/logo.png",
       coverImage:
         "https://images.unsplash.com/photo-1558030006-450675393462?w=1400&h=700&fit=crop",
       description: "Delicious food, great mood! Explore our chef's special dishes made just for you.",
@@ -43,10 +55,10 @@ async function main() {
   });
 
   await prisma.user.upsert({
-    where: { email: "admin@DelhiDarbar.com" },
+    where: { email: "admin@delhidarbar.com" },
     update: { restaurantId: brand.id, active: true, passwordHash },
     create: {
-      email: "admin@DelhiDarbar.com",
+      email: "admin@delhidarbar.com",
       passwordHash,
       name: "Admin",
       role: "ADMIN",
@@ -376,6 +388,22 @@ async function main() {
     console.log(`DelhiDarbar already has ${existingCategories} menu categories — left untouched.`);
   }
 
+  // Default demo prices (Rs.) so the customer menu is usable out of the box.
+  // Admins/CRM can still edit prices after seed.
+  const defaultPriceFor = (categoryName: string, itemName: string): number => {
+    const n = `${categoryName} ${itemName}`.toLowerCase();
+    if (n.includes("water")) return itemName.toLowerCase().includes("large") ? 100 : 50;
+    if (n.includes("can") || n.includes("raita") || n.includes("salad")) return 150;
+    if (n.includes("chapati") || n.includes("paratha")) return 50;
+    if (n.includes("roll")) return 350;
+    if (n.includes("kabab") || n.includes("boti") || n.includes("tikka")) return 650;
+    if (n.includes("biryani")) {
+      return itemName.toLowerCase().includes("double") ? 550 : 350;
+    }
+    if (n.includes("karahi") || n.includes("handi")) return 1200;
+    return 500;
+  };
+
   await prisma.menuCategory.deleteMany({ where: { restaurantId: brand.id } });
   for (const [sortOrder, categoryData] of requestedMenu.entries()) {
     const category = await prisma.menuCategory.create({
@@ -386,7 +414,7 @@ async function main() {
         restaurantId: brand.id,
         categoryId: category.id,
         name,
-        price: 0,
+        price: defaultPriceFor(categoryData.name, name),
         available: true,
       })),
     });
@@ -434,7 +462,7 @@ async function main() {
 
   console.log("Done!");
   console.log("Customer menu: /r/DelhiDarbar/t/12");
-  console.log("Admin login: admin@DelhiDarbar.com / password123");
+  console.log("Admin login: admin@delhidarbar.com / password123");
 }
 
 main()
