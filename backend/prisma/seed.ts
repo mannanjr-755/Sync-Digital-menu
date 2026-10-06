@@ -11,24 +11,41 @@ const prisma = new PrismaClient({
   adapter: new PrismaNeon({ connectionString }),
 });
 
-const BRAND_SLUG = "DelhiDarbar";
+const BRAND_SLUG = "Sync";
+const LEGACY_SLUG = "DelhiDarbar";
+const ADMIN_EMAIL = "admin@sync.com";
+const LEGACY_ADMIN_EMAIL = "admin@delhidarbar.com";
 const PIZZA_SLUG = "pizza-palace";
 const BRAND_TABLES = 12;
 
 async function main() {
-  console.log("Seeding DelhiDarbar demo data (insert-only, safe for shared databases)...");
+  console.log("Seeding Sync demo data (safe for shared databases)...");
 
   const passwordHash = await bcrypt.hash("password123", 10);
+
+  // Migrate legacy restaurant slug if present
+  const legacyRestaurant = await prisma.restaurant.findUnique({
+    where: { slug: LEGACY_SLUG },
+  });
+  const existingSync = await prisma.restaurant.findUnique({
+    where: { slug: BRAND_SLUG },
+  });
+  if (legacyRestaurant && !existingSync) {
+    await prisma.restaurant.update({
+      where: { id: legacyRestaurant.id },
+      data: { slug: BRAND_SLUG, name: "Sync", logo: "/logo.png" },
+    });
+  }
 
   const brand = await prisma.restaurant.upsert({
     where: { slug: BRAND_SLUG },
     update: {
-      name: "DelhiDarbar",
+      name: "Sync",
       logo: "/logo.png",
       description: "Delicious food, great mood! Explore our chef's special dishes made just for you.",
     },
     create: {
-      name: "DelhiDarbar",
+      name: "Sync",
       slug: BRAND_SLUG,
       logo: "/logo.png",
       coverImage:
@@ -54,11 +71,25 @@ async function main() {
     },
   });
 
+  // Migrate legacy admin email if present
+  const legacyAdmin = await prisma.user.findUnique({
+    where: { email: LEGACY_ADMIN_EMAIL },
+  });
+  const existingAdmin = await prisma.user.findUnique({
+    where: { email: ADMIN_EMAIL },
+  });
+  if (legacyAdmin && !existingAdmin) {
+    await prisma.user.update({
+      where: { id: legacyAdmin.id },
+      data: { email: ADMIN_EMAIL, restaurantId: brand.id, active: true, passwordHash },
+    });
+  }
+
   await prisma.user.upsert({
-    where: { email: "admin@delhidarbar.com" },
+    where: { email: ADMIN_EMAIL },
     update: { restaurantId: brand.id, active: true, passwordHash },
     create: {
-      email: "admin@delhidarbar.com",
+      email: ADMIN_EMAIL,
       passwordHash,
       name: "Admin",
       role: "ADMIN",
@@ -83,7 +114,7 @@ async function main() {
       data: {
         restaurantId: brand.id,
         tableNumber: n,
-        uniqueCode: `DelhiDarbar-t${n}-${Math.random().toString(36).slice(2, 8)}`,
+        uniqueCode: `Sync-t${n}-${Math.random().toString(36).slice(2, 8)}`,
         active: true,
       },
     });
@@ -383,9 +414,9 @@ async function main() {
         });
       }
     }
-    console.log(`Inserted ${categories.length} menu categories for DelhiDarbar.`);
+    console.log(`Inserted ${categories.length} menu categories for Sync.`);
   } else {
-    console.log(`DelhiDarbar already has ${existingCategories} menu categories — left untouched.`);
+    console.log(`Sync already has ${existingCategories} menu categories — left untouched.`);
   }
 
   // Default demo prices (Rs.) so the customer menu is usable out of the box.
@@ -419,7 +450,7 @@ async function main() {
       })),
     });
   }
-  console.log(`Replaced DelhiDarbar menu with ${requestedMenu.length} categories.`);
+  console.log(`Replaced Sync menu with ${requestedMenu.length} categories.`);
 
   // Keep a second restaurant for isolation testing
   const pizza = await prisma.restaurant.upsert({
@@ -461,8 +492,8 @@ async function main() {
   }
 
   console.log("Done!");
-  console.log("Customer menu: /r/DelhiDarbar/t/12");
-  console.log("Admin login: admin@delhidarbar.com / password123");
+  console.log("Customer menu: /r/Sync/t/12");
+  console.log("Admin login: admin@sync.com / password123");
 }
 
 main()

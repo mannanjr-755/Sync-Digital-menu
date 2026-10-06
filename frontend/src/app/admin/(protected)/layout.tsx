@@ -26,10 +26,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <div className="flex items-center gap-3">
             <Image
               src="/logo.png"
-              alt="DelhiDarbar"
+              alt="Sync"
               width={40}
               height={40}
-              className="h-10 w-10 rounded-full object-cover"
+              className="h-10 w-10 rounded-xl object-cover"
             />
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold text-[var(--gold-bright)]">{restaurantName}</p>

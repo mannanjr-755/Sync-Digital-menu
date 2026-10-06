@@ -3,12 +3,30 @@ import { Providers } from "@/components/Providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "https://sync-digital-menu.vercel.app"
+  ),
   title: {
-    default: "DelhiDarbar · Digital Menu",
-    template: "%s · DelhiDarbar",
+    default: "Sync · Digital Menu",
+    template: "%s · Sync",
   },
   description:
-    "DelhiDarbar digital restaurant menu and kitchen dashboard — NFC/QR table ordering.",
+    "Sync digital restaurant menu and kitchen dashboard — NFC/QR table ordering.",
+  applicationName: "Sync",
+  openGraph: {
+    title: "Sync · Digital Menu",
+    description:
+      "Sync digital restaurant menu and kitchen dashboard — NFC/QR table ordering.",
+    siteName: "Sync",
+    images: [{ url: "/logo.png", width: 512, height: 512, alt: "Sync" }],
+  },
+  twitter: {
+    card: "summary",
+    title: "Sync · Digital Menu",
+    description:
+      "Sync digital restaurant menu and kitchen dashboard — NFC/QR table ordering.",
+    images: ["/logo.png"],
+  },
   icons: {
     icon: "/logo.png",
     apple: "/logo.png",
@@ -17,7 +35,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" data-theme="dark" className="dark h-full antialiased" suppressHydrationWarning>
+    <html lang="en" data-theme="light" className="h-full antialiased" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

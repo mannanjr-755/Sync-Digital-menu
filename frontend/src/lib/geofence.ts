@@ -20,7 +20,7 @@ export const TABLE_GEOFENCE_RADIUS_M = 10;
 export type GeoOrigin = { lat: number; lng: number };
 
 export function geoOriginStorageKey(slug: string, tableNumber: number) {
-  return `DelhiDarbar-geo-origin:${slug}:${tableNumber}`;
+  return `Sync-geo-origin:${slug}:${tableNumber}`;
 }
 
 export function readGeoOrigin(key: string): GeoOrigin | null {

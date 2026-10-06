@@ -20,7 +20,7 @@ import { TABLE_GEOFENCE_RADIUS_M } from "@/lib/geofence";
 import { useTableGeofence } from "@/hooks/useTableGeofence";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-const FEEDBACK_URL = "https://www.google.com/search?q=DelhiDarbar";
+const FEEDBACK_URL = "https://www.google.com/search?q=Sync+Digital+Menu";
 type ActiveOrderItem = {
   id: string;
   menuItemId: string | null;
@@ -317,7 +317,7 @@ export function CustomerMenu({
             <Heart className={`h-4 w-4 ${favorites.has(item.id) ? "fill-current" : ""}`} />
           </button>
           {item.todaySpecial && (
-            <span className="absolute left-2 top-2 rounded-full bg-[var(--gold)] px-2 py-0.5 text-[10px] font-bold text-[var(--gold-bright)]">
+            <span className="absolute left-2 top-2 rounded-full bg-[var(--gold)] px-2 py-0.5 text-[10px] font-bold text-[var(--on-primary)]">
               Special
             </span>
           )}
@@ -343,7 +343,7 @@ export function CustomerMenu({
                   addToCart(item);
                 }
               }}
-              className="flex h-8 w-8 items-center justify-center rounded-md bg-[var(--gold)] text-[var(--gold-bright)]"
+              className="flex h-8 w-8 items-center justify-center rounded-md bg-[var(--gold)] text-[var(--on-primary)]"
             >
               <Plus className="h-4 w-4" />
             </button>
@@ -545,7 +545,7 @@ export function CustomerMenu({
             <button
               type="button"
               onClick={() => window.location.reload()}
-              className="mt-5 w-full rounded-md bg-[var(--gold)] py-3 text-sm font-bold uppercase tracking-wider text-[var(--gold-bright)]"
+              className="mt-5 w-full rounded-md bg-[var(--gold)] py-3 text-sm font-bold uppercase tracking-wider text-[var(--on-primary)]"
             >
               Try again
             </button>
@@ -576,10 +576,10 @@ export function CustomerMenu({
           <div className="flex flex-col items-center text-center">
             <Image
               src="/logo.png"
-              alt="DelhiDarbar"
+              alt="Sync"
               width={96}
               height={96}
-              className="h-20 w-20 rounded-full object-cover shadow-[var(--shadow)]"
+              className="h-20 w-20 rounded-xl object-cover shadow-[var(--shadow)]"
               priority
             />
             <h1 className="font-display mt-3 text-2xl text-[var(--gold-bright)]">{restaurant.name}</h1>
@@ -664,7 +664,7 @@ export function CustomerMenu({
                 <button
                   type="button"
                   onClick={handleSidebarAddMore}
-                  className="rounded-lg bg-[var(--gold)] px-3 py-2 text-[11px] font-bold text-[var(--gold-bright)] transition hover:opacity-90"
+                  className="rounded-lg bg-[var(--gold)] px-3 py-2 text-[11px] font-bold text-[var(--on-primary)] transition hover:opacity-90"
                 >
                   &#10133; Add More
                 </button>
@@ -681,10 +681,10 @@ export function CustomerMenu({
           <div className="flex items-center gap-2">
             <Image
               src="/logo.png"
-              alt="DelhiDarbar"
+              alt="Sync"
               width={40}
               height={40}
-              className="h-10 w-10 rounded-full object-cover"
+              className="h-10 w-10 rounded-xl object-cover"
               priority
             />
             <div>
@@ -891,7 +891,7 @@ export function CustomerMenu({
               <button
                 type="button"
                 onClick={() => setShowCart(true)}
-                className="rounded-md bg-[var(--gold)] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--gold-bright)]"
+                className="rounded-md bg-[var(--gold)] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--on-primary)]"
               >
                 View Cart
               </button>
@@ -922,7 +922,7 @@ export function CustomerMenu({
                 <button
                   type="button"
                   onClick={handleSidebarAddMore}
-                  className="rounded-md bg-[var(--gold)] px-3 py-2 text-[11px] font-bold text-[var(--gold-bright)]"
+                  className="rounded-md bg-[var(--gold)] px-3 py-2 text-[11px] font-bold text-[var(--on-primary)]"
                 >
                   + Add
                 </button>
@@ -942,7 +942,7 @@ export function CustomerMenu({
                 {isEditMode ? "Edit Order" : "Checkout"}
               </h2>
               <p className="text-sm text-[var(--text-muted)]">
-                DelhiDarbar · Table {tableNumber}
+                Sync · Table {tableNumber}
               </p>
               {isEditMode && (
                 <p className="mt-1 text-xs text-[var(--gold)]">
@@ -973,7 +973,7 @@ export function CustomerMenu({
                       <button
                         type="button"
                         onClick={() => updateQty(line.menuItemId, 1)}
-                        className="flex h-8 w-8 items-center justify-center rounded-md bg-[var(--gold)] text-[var(--gold-bright)]"
+                        className="flex h-8 w-8 items-center justify-center rounded-md bg-[var(--gold)] text-[var(--on-primary)]"
                       >
                         <Plus className="h-3.5 w-3.5" />
                       </button>
@@ -1010,7 +1010,7 @@ export function CustomerMenu({
                 type="button"
                 disabled={submitting || !cart.length}
                 onClick={isEditMode ? updateOrder : placeOrder}
-                className="w-full rounded-md bg-[var(--gold)] py-3 text-sm font-bold uppercase tracking-wider text-[var(--gold-bright)] disabled:opacity-50"
+                className="w-full rounded-md bg-[var(--gold)] py-3 text-sm font-bold uppercase tracking-wider text-[var(--on-primary)] disabled:opacity-50"
               >
                 {submitting
                   ? isEditMode ? "Updating order…" : "Placing order…"
@@ -1043,7 +1043,7 @@ export function CustomerMenu({
                 ✕
               </button>
               {detailItem.todaySpecial && (
-                <span className="absolute left-3 top-3 rounded-full bg-[var(--gold)] px-3 py-1 text-xs font-bold text-[var(--gold-bright)]">
+                <span className="absolute left-3 top-3 rounded-full bg-[var(--gold)] px-3 py-1 text-xs font-bold text-[var(--on-primary)]">
                   Today&apos;s Special
                 </span>
               )}
@@ -1140,7 +1140,7 @@ export function CustomerMenu({
                 <button
                   type="button"
                   onClick={() => setDetailQty((q) => q + 1)}
-                  className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--gold)] text-[var(--gold-bright)]"
+                  className="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--gold)] text-[var(--on-primary)]"
                 >
                   <Plus className="h-4 w-4" />
                 </button>
@@ -1199,7 +1199,7 @@ export function CustomerMenu({
                   });
                   setDetailItem(null);
                 }}
-                className="w-full rounded-md bg-[var(--gold)] py-3 text-sm font-bold uppercase tracking-wider text-[var(--gold-bright)]"
+                className="w-full rounded-md bg-[var(--gold)] py-3 text-sm font-bold uppercase tracking-wider text-[var(--on-primary)]"
               >
                 Add to Cart
               </button>

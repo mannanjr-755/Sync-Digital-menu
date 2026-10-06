@@ -103,7 +103,7 @@ export default async function OrderConfirmationPage({ params, searchParams }: Pr
             </Link>
             <Link
               href={`/r/${slug}/t/${table}?orderId=${orderId}&mode=add`}
-              className="flex items-center justify-center gap-2 rounded-xl border border-[var(--gold)] bg-[var(--gold)] px-4 py-3 text-sm font-bold text-[var(--gold-bright)] transition hover:opacity-90"
+              className="flex items-center justify-center gap-2 rounded-xl border border-[var(--gold)] bg-[var(--gold)] px-4 py-3 text-sm font-bold text-[var(--on-primary)] transition hover:opacity-90"
             >
               <span className="text-lg">&#10133;</span> Add More Items
             </Link>

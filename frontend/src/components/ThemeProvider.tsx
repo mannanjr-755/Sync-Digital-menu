@@ -37,11 +37,11 @@ function subscribe(callback: () => void) {
 
 function readTheme(): Theme {
   const stored = window.localStorage.getItem(STORAGE_KEY);
-  return stored === "light" || stored === "dark" ? stored : "dark";
+  return stored === "light" || stored === "dark" ? stored : "light";
 }
 
 function getServerSnapshot(): Theme {
-  return "dark";
+  return "light";
 }
 
 function applyTheme(theme: Theme) {

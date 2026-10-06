@@ -1,18 +1,18 @@
-# DelhiDarbar — Restaurant Ordering
+# Sync — Digital Menu
 
-Premium dark/gold digital menu + kitchen dashboard.
+Premium digital menu and kitchen dashboard for NFC/QR table ordering.
 
 ## Project structure
 
 ```
-restaurantorder/
+Sync/
 ├── frontend/     # Next.js app (UI + `/api/*` route handlers)
 ├── backend/      # Prisma schema, seed, and server libraries
 ├── package.json  # Root scripts — `npm run dev` starts the app
-└── .env          # Shared environment config
+└── .env          # Shared environment config (not committed)
 ```
 
-Production is a **single Vercel project** (`dehlidarbardigitalmenu`) with one public URL — https://dehlidarbardigitalmenu.vercel.app. The API is served from the same Next.js deployment at `/api/*`.
+Production is a **single Vercel project** (`sync-digital-menu`) with one public URL — https://sync-digital-menu.vercel.app. The API is served from the same Next.js deployment at `/api/*`.
 
 ## Quick start
 
@@ -30,12 +30,12 @@ This starts the full app at http://localhost:3000 (customer menu, admin UI, and 
 
 | Role | URL / credentials |
 |------|-------------------|
-| Customer menu (Table 12) | http://localhost:3000/r/DelhiDarbar/t/12 |
+| Customer menu (Table 12) | http://localhost:3000/r/Sync/t/12 |
 | Staff login | http://localhost:3000/admin/login |
-| Admin | `admin@delhidarbar.com` / `password123` |
+| Admin | `admin@sync.com` / `password123` |
 
 ## Brand
 
-- Restaurant: **DelhiDarbar** (slug `DelhiDarbar`)
-- Theme: black background, gold accents, Playfair + DM Sans
+- Restaurant: **Sync** (slug `Sync`)
+- Theme: royal blue (`#204899`) and white, Playfair + DM Sans
 - Currency: Rs.

@@ -6,82 +6,64 @@ const crmBase =
 
 export default function HomePage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[var(--bg)] text-[var(--text)]">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(166,112,102,0.22),transparent_45%)]" />
+    <div className="relative min-h-screen overflow-hidden text-white">
+      <div className="absolute inset-0 bg-[var(--sync-blue)]" />
+      <Image
+        src="/logo.png"
+        alt=""
+        fill
+        priority
+        className="object-cover opacity-30"
+        aria-hidden
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-[rgba(24,58,122,0.35)] via-[rgba(32,72,153,0.55)] to-[rgba(11,18,32,0.92)]" />
 
-      <header className="relative mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
+      <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
         <div className="flex items-center gap-3">
           <Image
             src="/logo.png"
-            alt="DelhiDarbar"
-            width={44}
-            height={44}
-            className="h-11 w-11 rounded-full object-cover"
+            alt="Sync"
+            width={48}
+            height={48}
+            className="h-12 w-12 rounded-xl object-cover ring-1 ring-white/25"
             priority
           />
-          <div>
-            <p className="font-display text-xl text-[var(--gold-bright)]">DelhiDarbar</p>
-            <p className="text-[10px] uppercase tracking-[0.25em] text-[var(--text-dim)]">
-              The French Bakery Cafe & Store
-            </p>
-          </div>
+          <p className="font-display text-2xl tracking-tight">Sync.</p>
         </div>
         <a
           href={`${crmBase}/login`}
-          className="rounded-full border border-[var(--gold)]/40 px-5 py-2 text-sm text-[var(--gold-bright)] transition hover:bg-[var(--gold)]/10"
+          className="rounded-lg border border-white/35 px-5 py-2 text-sm font-medium text-white transition hover:bg-white/10"
         >
           Staff login
         </a>
       </header>
 
-      <main className="relative mx-auto max-w-6xl px-6 pb-24 pt-16 sm:pt-24">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[var(--gold)]">
-          Digital menu · Kitchen dashboard
+      <main className="relative z-10 mx-auto flex min-h-[70vh] max-w-6xl flex-col justify-center px-6 pb-20 pt-10">
+        <p className="animate-fade-up text-xs font-semibold uppercase tracking-[0.35em] text-white/70">
+          Digital menu
         </p>
-        <h1 className="font-display mt-4 max-w-3xl text-5xl leading-tight text-[var(--text)] sm:text-7xl">
-          DelhiDarbar
+        <h1 className="font-display animate-fade-up mt-4 text-6xl leading-none tracking-tight sm:text-8xl">
+          Sync.
         </h1>
-        <p className="mt-6 max-w-2xl text-base leading-relaxed text-[var(--text-muted)] sm:text-lg">
-          Customers scan a table QR or NFC tag, order from your digital menu, and staff see every
-          order appear live on the counter dashboard.
+        <p className="animate-fade-up mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
+          Scan a table QR or NFC tag, browse the menu, and place orders that appear live for kitchen
+          and staff.
         </p>
 
-        <div className="mt-10 flex flex-wrap gap-3">
+        <div className="animate-fade-up mt-10 flex flex-wrap gap-3">
           <Link
-            href="/r/DelhiDarbar/t/12"
-            className="rounded-md bg-[var(--gold)] px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-[var(--bg)]"
+            href="/r/Sync/t/12"
+            className="rounded-lg bg-white px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-[var(--sync-blue)] transition hover:bg-white/90"
           >
             Try demo menu
           </Link>
           <a
             href={`${crmBase}/login`}
-            className="rounded-md border border-[var(--border)] bg-[var(--bg-card)] px-7 py-3.5 text-sm font-semibold text-[var(--text)]"
+            className="rounded-lg border border-white/40 px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10"
           >
             Open dashboard
           </a>
         </div>
-
-        <dl className="mt-20 grid gap-5 sm:grid-cols-3">
-          {[
-            {
-              title: "Table URL",
-              body: "/r/DelhiDarbar/t/12 — NFC and QR only store this link.",
-            },
-            {
-              title: "Live orders",
-              body: "NEW → ACCEPTED → PREPARING → READY → COMPLETED",
-            },
-            {
-              title: "Multi-restaurant",
-              body: "Each restaurant only sees its own menu, tables, and orders.",
-            },
-          ].map((item) => (
-            <div key={item.title} className="rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5">
-              <dt className="font-display text-lg text-[var(--gold-bright)]">{item.title}</dt>
-              <dd className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">{item.body}</dd>
-            </div>
-          ))}
-        </dl>
       </main>
     </div>
   );

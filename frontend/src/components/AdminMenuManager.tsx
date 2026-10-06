@@ -71,7 +71,7 @@ function toast(msg: string) {
 const inputClass =
   "w-full rounded-lg border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-2.5 text-sm text-[var(--text)] outline-none placeholder:text-[var(--text-dim)] focus:border-[var(--gold)]";
 
-const btnGold = "rounded-lg bg-[var(--gold)] px-3 py-2 text-xs font-bold uppercase tracking-wider text-[var(--gold-bright)] transition hover:opacity-90 disabled:opacity-50";
+const btnGold = "rounded-lg bg-[var(--gold)] px-3 py-2 text-xs font-bold uppercase tracking-wider text-[var(--on-primary)] transition hover:opacity-90 disabled:opacity-50";
 const btnOutline = "rounded-lg border border-[var(--border)] px-3 py-2 text-xs font-medium text-[var(--text-muted)] transition hover:border-[var(--gold)]/50 hover:text-[var(--gold-bright)] disabled:opacity-50";
 const btnDanger = "rounded-lg border border-red-500/30 px-3 py-2 text-xs font-medium text-red-400 transition hover:bg-red-500/10 disabled:opacity-50";
 

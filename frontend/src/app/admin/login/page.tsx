@@ -43,10 +43,10 @@ export default function AdminLoginPage() {
         <div className="mb-8 text-center">
           <Image
             src="/logo.png"
-            alt="DelhiDarbar"
+            alt="Sync"
             width={72}
             height={72}
-            className="mx-auto mb-4 h-[72px] w-[72px] rounded-full object-cover"
+            className="mx-auto mb-4 h-[72px] w-[72px] rounded-xl object-cover"
             priority
           />
           <h1 className="font-display text-2xl text-[var(--gold-bright)]">Staff Login</h1>
@@ -97,7 +97,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--gold)] py-2.5 text-sm font-bold uppercase tracking-wider text-[var(--bg)] transition hover:bg-[var(--gold-bright)] hover:text-[var(--bg)] disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--gold)] py-2.5 text-sm font-bold uppercase tracking-wider text-[var(--on-primary)] transition hover:opacity-90 disabled:opacity-50"
           >
             {loading ? (
               <>
