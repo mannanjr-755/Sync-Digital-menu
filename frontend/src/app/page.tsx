@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 const crmBase =
-  (process.env.NEXT_PUBLIC_CRM_URL || "http://localhost:3001").replace(/\/$/, "");
+  (process.env.NEXT_PUBLIC_CRM_URL || "").replace(/\/$/, "");
+const staffLoginHref = crmBase ? `${crmBase}/login` : "/admin/login";
 
 export default function HomePage() {
   return (
@@ -31,7 +32,7 @@ export default function HomePage() {
           <p className="font-display text-2xl tracking-tight">Sync.</p>
         </div>
         <a
-          href={`${crmBase}/login`}
+          href={staffLoginHref}
           className="rounded-lg border border-white/35 px-5 py-2 text-sm font-medium text-white transition hover:bg-white/10"
         >
           Staff login
@@ -52,13 +53,13 @@ export default function HomePage() {
 
         <div className="animate-fade-up mt-10 flex flex-wrap gap-3">
           <Link
-            href="/r/Sync/t/12"
+            href="/r/sync/t/12"
             className="rounded-lg bg-white px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-[var(--sync-blue)] transition hover:bg-white/90"
           >
             Try demo menu
           </Link>
           <a
-            href={`${crmBase}/login`}
+            href={staffLoginHref}
             className="rounded-lg border border-white/40 px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10"
           >
             Open dashboard

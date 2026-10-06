@@ -30,12 +30,12 @@ This starts the full app at http://localhost:3000 (customer menu, admin UI, and 
 
 | Role | URL / credentials |
 |------|-------------------|
-| Customer menu (Table 12) | http://localhost:3000/r/Sync/t/12 |
+| Customer menu (Table 12) | http://localhost:3000/r/sync/t/12 |
 | Staff login | http://localhost:3000/admin/login |
 | Admin | `admin@sync.com` / `password123` |
 
 ## Brand
 
-- Restaurant: **Sync** (slug `Sync`)
+- Restaurant: **Sync** (slug `sync`)
 - Theme: royal blue (`#204899`) and white, Playfair + DM Sans
 - Currency: Rs.

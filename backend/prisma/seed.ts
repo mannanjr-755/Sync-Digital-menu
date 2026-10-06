@@ -11,7 +11,7 @@ const prisma = new PrismaClient({
   adapter: new PrismaNeon({ connectionString }),
 });
 
-const BRAND_SLUG = "Sync";
+const BRAND_SLUG = "sync";
 const LEGACY_SLUG = "DelhiDarbar";
 const ADMIN_EMAIL = "admin@sync.com";
 const LEGACY_ADMIN_EMAIL = "admin@delhidarbar.com";
@@ -27,12 +27,17 @@ async function main() {
   const legacyRestaurant = await prisma.restaurant.findUnique({
     where: { slug: LEGACY_SLUG },
   });
-  const existingSync = await prisma.restaurant.findUnique({
-    where: { slug: BRAND_SLUG },
-  });
+  const existingSync =
+    (await prisma.restaurant.findUnique({ where: { slug: BRAND_SLUG } })) ??
+    (await prisma.restaurant.findUnique({ where: { slug: "Sync" } }));
   if (legacyRestaurant && !existingSync) {
     await prisma.restaurant.update({
       where: { id: legacyRestaurant.id },
+      data: { slug: BRAND_SLUG, name: "Sync", logo: "/logo.png" },
+    });
+  } else if (existingSync && existingSync.slug !== BRAND_SLUG) {
+    await prisma.restaurant.update({
+      where: { id: existingSync.id },
       data: { slug: BRAND_SLUG, name: "Sync", logo: "/logo.png" },
     });
   }
@@ -492,7 +497,7 @@ async function main() {
   }
 
   console.log("Done!");
-  console.log("Customer menu: /r/Sync/t/12");
+  console.log("Customer menu: /r/sync/t/12");
   console.log("Admin login: admin@sync.com / password123");
 }
 

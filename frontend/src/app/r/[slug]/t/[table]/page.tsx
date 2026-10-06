@@ -16,9 +16,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   await connection();
   const restaurant =
     (await prisma?.restaurant?.findUnique({ where: { slug } })) ??
-    (slug === "Sync" || slug === "DelhiDarbar"
+    (["sync", "Sync", "DelhiDarbar"].includes(slug)
       ? await prisma?.restaurant?.findFirst({
-          where: { OR: [{ slug: "Sync" }, { slug: "DelhiDarbar" }] },
+          where: { OR: [{ slug: "sync" }, { slug: "Sync" }, { slug: "DelhiDarbar" }] },
         })
       : null);
   return {
@@ -56,9 +56,9 @@ export default async function TableMenuPage({ params }: Props) {
         },
       },
     })) ??
-    (slug === "Sync" || slug === "DelhiDarbar"
+    (slug === "sync" || slug === "Sync" || slug === "DelhiDarbar"
       ? await prisma.restaurant.findFirst({
-          where: { OR: [{ slug: "Sync" }, { slug: "DelhiDarbar" }] },
+          where: { OR: [{ slug: "sync" }, { slug: "Sync" }, { slug: "DelhiDarbar" }] },
           include: {
             categories: {
               orderBy: { sortOrder: "asc" },
