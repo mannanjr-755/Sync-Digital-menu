@@ -1,71 +1,103 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client";
 
-const crmBase =
-  (process.env.NEXT_PUBLIC_CRM_URL || "").replace(/\/$/, "");
-const staffLoginHref = crmBase ? `${crmBase}/login` : "/admin/login";
+import Link from "next/link";
+import { useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { AppHeader } from "@/components/menu/AppHeader";
+import { CategoryShortcuts } from "@/components/menu/CategoryShortcuts";
+import { PageShell } from "@/components/menu/PageShell";
+import { PrimaryButton } from "@/components/menu/PrimaryButton";
+import { ProductImage } from "@/components/menu/ProductImage";
+import { useCart } from "@/context/CartContext";
+import { CATEGORIES, IMAGES, RESTAURANT, getFeaturedProducts } from "@/data/catalog";
+import { formatMoney } from "@/lib/utils";
+
+function TableFromQuery() {
+  const searchParams = useSearchParams();
+  const { setTableNumber } = useCart();
+
+  useEffect(() => {
+    const table = Number(searchParams.get("table"));
+    if (Number.isInteger(table) && table > 0) setTableNumber(table);
+  }, [searchParams, setTableNumber]);
+
+  return null;
+}
 
 export default function HomePage() {
+  const featured = getFeaturedProducts()[0];
+
   return (
-    <div className="relative min-h-screen overflow-hidden text-white">
-      <div className="absolute inset-0 bg-[var(--sync-blue)]" />
-      <Image
-        src="/logo.png"
-        alt=""
-        fill
-        priority
-        className="object-cover opacity-30"
-        aria-hidden
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-[rgba(24,58,122,0.35)] via-[rgba(32,72,153,0.55)] to-[rgba(11,18,32,0.92)]" />
+    <PageShell>
+      <Suspense fallback={null}>
+        <TableFromQuery />
+      </Suspense>
+      <AppHeader />
 
-      <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
-        <div className="flex items-center gap-3">
-          <Image
-            src="/logo.png"
-            alt="Sync"
-            width={48}
-            height={48}
-            className="h-12 w-12 rounded-xl object-cover ring-1 ring-white/25"
+      <section className="relative mx-4 mt-4 overflow-hidden rounded-[var(--radius-xl)]">
+        <div className="relative aspect-[4/3] min-h-[220px]">
+          <ProductImage
+            src={IMAGES.hero}
+            alt="Welcome to Sync cafe"
+            fill
+            sizes="480px"
             priority
+            className="scale-105"
           />
-          <p className="font-display text-2xl tracking-tight">Sync.</p>
+          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,40,100,0.88)] via-[rgba(0,55,140,0.45)] to-[rgba(0,71,171,0.2)]" />
+          <div className="absolute inset-0 flex flex-col justify-end p-5 text-white">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/80">
+              Welcome to
+            </p>
+            <h1 className="mt-1 text-3xl font-bold tracking-tight">Sync.</h1>
+            <p className="mt-2 max-w-[16rem] text-sm leading-relaxed text-white/85">
+              {RESTAURANT.tagline}
+            </p>
+            <div className="mt-5">
+              <PrimaryButton href="/menu" variant="light" showArrow className="max-w-[200px]">
+                Explore Menu
+              </PrimaryButton>
+            </div>
+          </div>
         </div>
-        <a
-          href={staffLoginHref}
-          className="rounded-lg border border-white/35 px-5 py-2 text-sm font-medium text-white transition hover:bg-white/10"
-        >
-          Staff login
-        </a>
-      </header>
+      </section>
 
-      <main className="relative z-10 mx-auto flex min-h-[70vh] max-w-6xl flex-col justify-center px-6 pb-20 pt-10">
-        <p className="animate-fade-up text-xs font-semibold uppercase tracking-[0.35em] text-white/70">
-          Digital menu
-        </p>
-        <h1 className="font-display animate-fade-up mt-4 text-6xl leading-none tracking-tight sm:text-8xl">
-          Sync.
-        </h1>
-        <p className="animate-fade-up mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
-          Scan a table QR or NFC tag, browse the menu, and place orders that appear live for kitchen
-          and staff.
-        </p>
+      <section className="px-4 pt-6">
+        <CategoryShortcuts categories={CATEGORIES} />
+      </section>
 
-        <div className="animate-fade-up mt-10 flex flex-wrap gap-3">
+      {featured && (
+        <section className="px-4 pb-8 pt-5">
+          <div className="mb-3 flex items-end justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--sync-blue)]">
+                Featured
+              </p>
+              <h2 className="text-lg font-bold text-[var(--text)]">Our Signature</h2>
+            </div>
+            <Link href="/menu" className="text-sm font-medium text-[var(--sync-blue)]">
+              See all
+            </Link>
+          </div>
           <Link
-            href="/r/sync/t/12"
-            className="rounded-lg bg-white px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-[var(--sync-blue)] transition hover:bg-white/90"
+            href={`/menu/${featured.id}`}
+            className="flex gap-3 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)] bg-white p-3 shadow-[var(--shadow-sm)] transition hover:shadow-[var(--shadow)]"
           >
-            Try demo menu
+            <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[var(--radius-md)]">
+              <ProductImage src={featured.image} alt={featured.name} fill sizes="96px" />
+            </div>
+            <div className="flex min-w-0 flex-1 flex-col justify-center">
+              <h3 className="text-base font-semibold text-[var(--text)]">{featured.name}</h3>
+              <p className="mt-1 line-clamp-2 text-xs text-[var(--text-muted)]">
+                {featured.description}
+              </p>
+              <p className="mt-2 text-sm font-bold text-[var(--sync-blue)]">
+                {formatMoney(featured.basePrice)}
+              </p>
+            </div>
           </Link>
-          <a
-            href={staffLoginHref}
-            className="rounded-lg border border-white/40 px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10"
-          >
-            Open dashboard
-          </a>
-        </div>
-      </main>
-    </div>
+        </section>
+      )}
+    </PageShell>
   );
 }

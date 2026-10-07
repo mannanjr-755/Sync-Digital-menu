@@ -2,11 +2,14 @@ import { prisma } from "./prisma";
 
 /** Generate next order number for a restaurant, e.g. BH-0001 */
 export async function generateOrderNumber(restaurantId: string, slug: string): Promise<string> {
-  const prefix = slug
-    .split("-")
-    .map((p) => p[0]?.toUpperCase() ?? "")
-    .join("")
-    .slice(0, 3) || "ORD";
+  const prefix =
+    slug.toLowerCase() === "sync"
+      ? "SNC"
+      : slug
+          .split("-")
+          .map((p) => p[0]?.toUpperCase() ?? "")
+          .join("")
+          .slice(0, 3) || "ORD";
 
   // Use max existing number + 1 (not count + 1). Count breaks after deletions
   // or gaps and collides with @@unique([restaurantId, orderNumber]).
